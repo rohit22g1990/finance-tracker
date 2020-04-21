@@ -4,7 +4,13 @@ class Stock < ApplicationRecord
     # client = IEX::Api::Client.new(publishable_token: 'Tpk_9d7f945f4edd48e3a87e69cdce4dc309',
     client = IEX::Api::Client.new(publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key] ,
                                   endpoint: 'https://sandbox.iexapis.com/v1')
-    client.price(ticker_symbol)
+    
+    new(
+      ticker: ticker_symbol, 
+      name: client.company(ticker_symbol).company_name, 
+      last_price: client.price(ticker_symbol)
+    )
+
   end
 
 end
